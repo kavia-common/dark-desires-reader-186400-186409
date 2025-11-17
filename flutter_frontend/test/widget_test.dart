@@ -3,16 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_frontend/main.dart';
 
 void main() {
-  testWidgets('App generation message displayed', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Feed screen renders with title and FAB', (WidgetTester tester) async {
+    await tester.pumpWidget(const AppRoot());
+    await tester.pumpAndSettle();
 
-    expect(find.text('flutter_frontend App is being generated...'), findsOneWidget);
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('Discover Stories'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 
-  testWidgets('App bar has correct title', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Shows snackbar on FAB tap (placeholder)', (WidgetTester tester) async {
+    await tester.pumpWidget(const AppRoot());
+    await tester.pumpAndSettle();
 
-    expect(find.text('flutter_frontend'), findsOneWidget);
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump(); // start animation
+    await tester.pump(const Duration(milliseconds: 300)); // show snackbar
+
+    expect(find.text('Post story flow coming soon'), findsOneWidget);
   });
 }
