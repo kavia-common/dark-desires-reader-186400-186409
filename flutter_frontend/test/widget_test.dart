@@ -11,14 +11,15 @@ void main() {
     expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 
-  testWidgets('Shows snackbar on FAB tap (placeholder)', (WidgetTester tester) async {
+  testWidgets('Tapping FAB opens PostStoryDialog', (WidgetTester tester) async {
     await tester.pumpWidget(const AppRoot());
     await tester.pumpAndSettle();
 
+    // Tap FAB to open dialog
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pump(); // start animation
-    await tester.pump(const Duration(milliseconds: 300)); // show snackbar
+    await tester.pumpAndSettle();
 
-    expect(find.text('Post story flow coming soon'), findsOneWidget);
+    // Dialog title should be visible
+    expect(find.text('Post a story'), findsOneWidget);
   });
 }
